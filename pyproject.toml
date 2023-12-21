@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "drf-custom-user-model"
+version = "0.1.0"
+description = ""
+authors = ["ctomrp <cristian.rico.palma@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.0"
+pyjwt = "^2.8.0"
+djangorestframework = "^3.14.0"
+django-cors-headers = "^4.3.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
