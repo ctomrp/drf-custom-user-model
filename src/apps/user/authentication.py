@@ -1,10 +1,11 @@
-from django.conf import settings
-from rest_framework import authentication, exceptions
-from .models import User
 import jwt
+from .models import User
+from django.conf import settings
+from rest_framework.authentication import BaseAuthentication
+from rest_framework.exceptions import AuthenticationFailed
 
 
-class CustomUserAuthentication(authentication.BaseAuthentication):
+class CustomUserAuthentication(BaseAuthentication):
     def authenticate(self, request):
         token = request.COOKIES.get("jwt")
 
@@ -14,7 +15,7 @@ class CustomUserAuthentication(authentication.BaseAuthentication):
         try:
             payload = jwt.decode(token, settings.JWT_SECRET, algorithms=["HS256"])
         except:
-            raise exceptions.AuthenticationFailed("Unauthorized")
+            raise AuthenticationFailed("Unauthorized")
 
         user = User.objects.filter(id=payload["id"]).first()
 

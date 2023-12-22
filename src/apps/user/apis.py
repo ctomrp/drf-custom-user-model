@@ -1,9 +1,10 @@
-from rest_framework import exceptions, permissions
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from .authentication import CustomUserAuthentication
 from .serializers import UserSerializer
 from .services import UserDataClass
-from . import authentication
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 class RegisterApi(APIView):
@@ -25,10 +26,10 @@ class LoginApi(APIView):
         user = UserDataClass.user_email_selector(email=email)
 
         if user is None:
-            raise exceptions.AuthenticationFailed("Invalid Credentials")
+            raise AuthenticationFailed("Invalid Credentials")
 
         if not user.check_password(raw_password=password):
-            raise exceptions.AuthenticationFailed("Invalid Credentials")
+            raise AuthenticationFailed("Invalid Credentials")
 
         token = UserDataClass.create_token(user_id=user.id)
 
@@ -45,8 +46,8 @@ class UserApi(APIView):
     it the user is authenticated
     """
 
-    authentication_classes = (authentication.CustomUserAuthentication,)
-    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (CustomUserAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         user = request.user
@@ -57,8 +58,8 @@ class UserApi(APIView):
 
 
 class LogoutApi(APIView):
-    authentication_classes = (authentication.CustomUserAuthentication,)
-    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (CustomUserAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         resp = Response()
