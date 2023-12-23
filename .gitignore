@@ -3,3 +3,4 @@ __pychache__
 *.pyc
 db.sqlite3
 *_initial.py
+.pytest_cache

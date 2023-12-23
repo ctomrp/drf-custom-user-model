@@ -1,6 +1,6 @@
-import datetime
 from .models import Status
 from dataclasses import dataclass
+from datetime import datetime
 from django.shortcuts import get_object_or_404
 from rest_framework import exceptions
 from src.apps.user.services import UserDataClass
@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 @dataclass
 class StatusDataClass:
     content: str
-    date_published: datetime.datetime = None
+    date_published: datetime = None
     user: UserDataClass = None
     id: int = None
 

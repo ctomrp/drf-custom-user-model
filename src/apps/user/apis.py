@@ -15,7 +15,7 @@ class RegisterApi(APIView):
         data = serializer.validated_data
         serializer.instance = UserDataClass.create_user(user_dc=data)
 
-        return Response(data={"hello": "world"})
+        return Response(data=serializer.data)
 
 
 class LoginApi(APIView):
