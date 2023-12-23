@@ -9,6 +9,9 @@ from rest_framework.views import APIView
 
 class RegisterApi(APIView):
     def post(self, request):
+        if request.COOKIES.get("jwt"):
+            raise AuthenticationFailed("You're in a session already")
+
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -20,6 +23,9 @@ class RegisterApi(APIView):
 
 class LoginApi(APIView):
     def post(self, request):
+        if request.COOKIES.get("jwt"):
+            raise AuthenticationFailed("You're in a session already")
+
         email = request.data["email"]
         password = request.data["password"]
 
